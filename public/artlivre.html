@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ArtLivre — Rede social de artistas e pinturas</title>
+<meta name="description" content="ArtLivre é a rede social onde artistas publicam pinturas, seguem uns aos outros e constroem seu próprio perfil de obras." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#120d0d;
+    --bg-soft:#1a1212;
+    --card:#1f1616;
+    --card-2:#261a1a;
+    --red:#ff2d3f;
+    --red-soft:#ff5a68;
+    --wine:#6d0f1a;
+    --wine-deep:#3d0810;
+    --text:#f6ecec;
+    --muted:#b9a5a5;
+    --line:rgba(255,255,255,.08);
+    --radius:22px;
+    --shadow:0 18px 40px rgba(0,0,0,.55);
+    --glow:0 14px 34px rgba(255,45,63,.32);
+    --grad:linear-gradient(135deg,var(--red),var(--wine));
+    --serif:"Playfair Display",Georgia,serif;
+    --sans:"Inter",system-ui,-apple-system,Segoe UI,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:radial-gradient(1200px 600px at 15% -10%,rgba(109,15,26,.45),transparent 60%),var(--bg);
+    color:var(--text);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:var(--serif);line-height:1.1;margin:0}
+  .wrap{width:min(1180px,92vw);margin:0 auto}
+
+  /* Botões */
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;border:none;cursor:pointer;
+    font-family:var(--sans);font-weight:600;font-size:.95rem;padding:.85rem 1.6rem;
+    border-radius:999px;color:var(--text);background:var(--card-2);
+    transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s ease,background .28s ease;
+  }
+  .btn:hover{transform:translateY(-4px) scale(1.045);box-shadow:var(--glow)}
+  .btn:active{transform:translateY(-1px) scale(.96)}
+  .btn--primary{background:var(--grad);color:#fff}
+  .btn--ghost{background:transparent;border:1px solid var(--line)}
+  .btn--ghost:hover{background:rgba(255,45,63,.12)}
+
+  /* Header */
+  header.top{
+    position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(18,13,13,.78);border-bottom:1px solid var(--line);
+  }
+  .top__inner{display:flex;align-items:center;gap:1.2rem;padding:.9rem 0}
+  .logo{display:flex;align-items:center;gap:.55rem;font-family:var(--serif);font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(255,45,63,.7);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,45,63,.65)}70%{box-shadow:0 0 0 12px rgba(255,45,63,0)}100%{box-shadow:0 0 0 0 rgba(255,45,63,0)}}
+  nav.menu{display:flex;gap:1.4rem;margin-left:auto;font-size:.94rem;color:var(--muted)}
+  nav.menu a{transition:color .2s}
+  nav.menu a:hover{color:var(--red-soft)}
+  .top .btn{margin-left:auto}
+  nav.menu + .btn{margin-left:1rem}
+  @media(max-width:860px){nav.menu{display:none}}
+
+  /* Hero */
+  .hero{position:relative;padding:6rem 0 4rem;overflow:hidden}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;pointer-events:none}
+  .orb--1{width:420px;height:420px;background:var(--red);top:-120px;left:-100px;animation:drift1 18s ease-in-out infinite alternate}
+  .orb--2{width:380px;height:380px;background:var(--wine);bottom:-160px;right:-80px;animation:drift2 22s ease-in-out infinite alternate}
+  @keyframes drift1{to{transform:translate(120px,80px) scale(1.15)}}
+  @keyframes drift2{to{transform:translate(-100px,-60px) scale(1.1)}}
+  .hero__content{position:relative;z-index:2;max-width:760px}
+  .eyebrow{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red-soft);
+    border:1px solid rgba(255,45,63,.35);padding:.35rem 1rem;border-radius:999px;background:rgba(255,45,63,.08)}
+  .hero h1{font-size:clamp(2.6rem,7vw,4.6rem);margin:1.2rem 0}
+  .shimmer{
+    font-style:italic;
+    background:linear-gradient(100deg,var(--red) 20%,#ffd7dc 45%,var(--red-soft) 60%,var(--wine) 85%);
+    background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:shimmer 4.5s linear infinite;
+  }
+  @keyframes shimmer{0%{background-position:180% 0}100%{background-position:-80% 0}}
+  .hero p.lead{font-size:clamp(1rem,2.4vw,1.2rem);color:var(--muted);max-width:56ch}
+  .hero__actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+
+  /* Chips */
+  .chips{display:flex;gap:.7rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:1.2rem .2rem 1.8rem;-webkit-overflow-scrolling:touch}
+  .chips::-webkit-scrollbar{height:6px}
+  .chips::-webkit-scrollbar-thumb{background:rgba(255,45,63,.4);border-radius:99px}
+  .chip{scroll-snap-align:start;flex:0 0 auto;padding:.6rem 1.3rem;border-radius:999px;border:1px solid var(--line);
+    background:var(--card);color:var(--muted);font-size:.9rem;font-weight:500;cursor:pointer;white-space:nowrap;
+    transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s,color .2s,background .2s}
+  .chip:hover{transform:translateY(-3px) scale(1.04);color:var(--text);box-shadow:var(--glow)}
+  .chip:active{transform:scale(.95)}
+  .chip[aria-pressed="true"]{background:var(--grad);color:#fff;border-color:transparent}
+
+  /* Seções */
+  section{padding:3.5rem 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.6rem;flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(1.9rem,4.5vw,2.9rem)}
+  .sec-head p{margin:.4rem 0 0;color:var(--muted)}
+
+  /* Galeria — grid explícito */
+  .gallery{
+    display:grid;gap:1.1rem;
+    grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:190px;
+  }
+  .card{position:relative;overflow:hidden;border-radius:var(--radius);background:var(--card);border:1px solid var(--line);
+    box-shadow:var(--shadow);transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease}
+  .card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+  .card:hover{transform:translateY(-8px);box-shadow:0 22px 48px rgba(255,45,63,.28)}
+  .card:hover img{transform:scale(1.08)}
+  .plaque{
+    position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.2rem;
+    background:linear-gradient(to top,rgba(61,8,16,.96),rgba(18,13,13,.88) 60%,transparent);
+    transform:translateY(101%);transition:transform .38s ease;
+  }
+  .card:hover .plaque,.card:focus-within .plaque{transform:translateY(0)}
+  .plaque h3{font-size:1.15rem}
+  .plaque .meta{font-size:.82rem;color:var(--muted);margin-top:.15rem}
+  .plaque .local{font-size:.78rem;color:var(--red-soft);margin-top:.3rem}
+  .card--featured{grid-column:span 2;grid-row:span 2}
+  .card--wide{grid-column:span 2}
+  .card--tall{grid-row:span 2}
+  @media(max-width:900px){
+    .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:170px}
+    .card--featured{grid-column:span 2;grid-row:span 2}
+    .card--wide{grid-column:span 2}
+  }
+  @media(max-width:560px){.gallery{grid-auto-rows:150px}.card--tall{grid-row:span 1}}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(34px) scale(.96)}
+  .reveal.is-in{opacity:1;transform:none;transition:opacity .5s ease,transform .65s cubic-bezier(.34,1.56,.64,1)}
+
+  /* Perfil */
+  .profile{border-radius:32px;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+  .cover{position:relative;height:230px}
+  .cover img{width:100%;height:100%;object-fit:cover}
+  .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,45,63,.45),rgba(18,13,13,.92))}
+  .profile__body{padding:0 clamp(1.2rem,4vw,2.4rem) 2.4rem;position:relative}
+  .avatar{width:128px;height:128px;border-radius:50%;object-fit:cover;border:5px solid var(--card);margin-top:-64px;position:relative;z-index:2;box-shadow:var(--glow)}
+  .profile h2{font-size:2rem;margin-top:1rem}
+  .handle{color:var(--red-soft);font-size:.95rem}
+  .stats{display:flex;gap:2.4rem;margin:1.2rem 0;flex-wrap:wrap}
+  .stats b{display:block;font-family:var(--serif);font-size:1.7rem}
+  .stats span{color:var(--muted);font-size:.85rem}
+  .bio{color:var(--muted);max-width:62ch}
+  .profile__actions{display:flex;gap:.7rem;flex-wrap:wrap;margin:1.4rem 0 2rem}
+  .liked-title{font-family:var(--serif);font-size:1.25rem;margin-bottom:.9rem}
+  .liked{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem}
+  .liked img{aspect-ratio:1/1;object-fit:cover;width:100%;border-radius:18px;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s}
+  .liked img:hover{transform:translateY(-6px) scale(1.03);box-shadow:var(--glow)}
+  @media(max-width:560px){.liked{grid-template-columns:repeat(2,1fr)}}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:2.4rem 0;color:var(--muted);font-size:.88rem}
+  .foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+  .foot a:hover{color:var(--red-soft)}
+
+  /* Load-in */
+  .rise{opacity:0;transform:translateY(26px);animation:rise .8s cubic-bezier(.22,1,.36,1) forwards}
+  .d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.31s}.d4{animation-delay:.44s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .rise,.reveal{opacity:1!important;transform:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top__inner">
+    <a class="logo" href="#inicio"><span class="dot" aria-hidden="true"></span>ArtLivre</a>
+    <nav class="menu" aria-label="Navegação principal">
+      <a href="#galeria">Galeria</a>
+      <a href="#categorias">Categorias</a>
+      <a href="#artista">Artista em destaque</a>
+      <a href="#comunidade">Comunidade</a>
+    </nav>
+    <button class="btn btn--primary">Publicar obra</button>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="orb orb--1" aria-hidden="true"></div>
+    <div class="orb orb--2" aria-hidden="true"></div>
+    <div class="wrap hero__content">
+      <span class="eyebrow rise d1">A rede social da arte</span>
+      <h1 class="rise d2">Onde cada pincelada encontra <span class="shimmer">público</span>.</h1>
+      <p class="lead rise d3">Publique suas pinturas, siga artistas que te inspiram e construa uma galeria viva do seu trabalho. No ArtLivre, a sua obra nunca fica guardada na gaveta.</p>
+      <div class="hero__actions rise d4">
+        <button class="btn btn--primary">Criar meu perfil</button>
+        <a class="btn btn--ghost" href="#galeria">Explorar obras</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="categorias" style="padding-top:0">
+    <div class="wrap">
+      <div class="chips" role="group" aria-label="Categorias de obras">
+        <button class="chip" aria-pressed="true">Todos</button>
+        <button class="chip" aria-pressed="false">Pinturas mais famosas</button>
+        <button class="chip" aria-pressed="false">Novas</button>
+        <button class="chip" aria-pressed="false">Clássicos</button>
+        <button class="chip" aria-pressed="false">Em alta</button>
+        <button class="chip" aria-pressed="false">Favoritas da semana</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>Galeria em destaque</h2>
+          <p>Obras de domínio público que inspiram a comunidade nesta semana.</p>
+        </div>
+        <a class="btn btn--ghost" href="#comunidade">Ver tudo</a>
+      </div>
+
+      <div class="gallery">
+        <article class="card card--featured reveal" tabindex="0">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" alt="Pintura A Noite Estrelada, de Vincent van Gogh" loading="lazy" />
+          <div class="plaque">
+            <h3>A Noite Estrelada</h3>
+            <div class="meta">Vincent van Gogh · 1889</div>
+            <div class="local">Museu de Arte Moderna, Nova York</div>
+          </div>
+        </article>
+
+        <article class="card card--tall reveal" tabindex="0">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/1280px-1665_Girl_with_a_Pearl_Earring.jpg" alt="Pintura Moça com Brinco de Pérola, de Johannes Vermeer" loading="lazy" />
+          <div class="plaque">
+            <h3>Moça com Brinco de Pérola</h3>
+            <div class="meta">Johannes Vermeer · 1665</div>
+            <div class="local">Mauritshuis, Haia</div>
+          </div>
+        </article>
+
+        <article class="card reveal" tabindex="0">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/1280px-Tsunami_by_hokusai_19th_century.jpg" alt="Gravura A Grande Onda de Kanagawa, de Hokusai" loading="lazy" />
+          <div class="plaque">
+            <h3>A Grande Onda de Kanagawa</h3>
+            <div class="meta">Katsushika Hokusai · 1831</div>
+            <div class="local">Museu Metropolitano de Arte, Nova York</div>
+          </div>
+        </article>
+
+        <article class="card card--wide reveal" tabindex="0">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/1280px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg" alt="Pintura O Nascimento de Vênus, de Sandro Botticelli" loading="lazy" />
+          <div class="plaque">
+            <h3>O Nascimento de Vênus</h3>
+            <div class="meta">Sandro Botticelli · 1485</div>
+            <div class="local">Galeria Uffizi, Florença</div>
+          </div>
+        </article>
+
+        <article class="card reveal" tabindex="0">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/1280px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg" alt="Pintura O Beijo, de Gustav Klimt" loading="lazy" />
+          <div class="plaque">
+            <h3>O Beijo</h3>
+            <div class="meta">Gustav Klimt · 1908</div>
+            <div class="local">Galeria Belvedere, Viena</div>
+          </div>
+        </article>
+
+        <article class="card card--wide reveal" tabindex="0">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg/1280px-Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg" alt="Pintura Nenúfares, de Claude Monet" loading="lazy" />
+          <div class="plaque">
+            <h3>Nenúfares</h3>
+            <div class="meta">Claude Monet · 1906</div>
+            <div class="local">Instituto de Arte de Chicago</div>
+          </div>
+        </article>
+
+        <article class="card reveal" tabindex="0">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Vincent_Willem_van_Gogh_127.jpg/1280px-Vincent_Willem_van_Gogh_127.jpg" alt="Pintura Os Girassóis, de Vincent van Gogh" loading="lazy" />
+          <div class="plaque">
+            <h3>Os Girassóis</h3>
+            <div class="meta">Vincent van Gogh · 1889</div>
+            <div class="local">Museu Van Gogh, Amsterdã</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="artista">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>Artista em destaque</h2>
+          <p>Todo mês, um perfil escolhido pela comunidade do ArtLivre.</p>
+        </div>
+      </div>
+
+      <div class="profile reveal">
+        <div class="cover">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg" alt="Capa do perfil com a pintura Campo de Trigo com Corvos" loading="lazy" />
+        </div>
+        <div class="profile__body">
+          <img class="avatar" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg/500px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg" alt="Autorretrato de Vincent van Gogh" loading="lazy" />
+          <h2>Vincent van Gogh</h2>
+          <div class="handle">@vangogh</div>
+          <div class="stats">
+            <div><b>860</b><span>Obras</span></div>
+            <div><b>4,2 mi</b><span>Seguidores</span></div>
+            <div><b>127</b><span>Seguindo</span></div>
+          </div>
+          <p class="bio">Pintor holandês pós-impressionista. Pinto o que sinto: campos de trigo agitados pelo vento, céus em espiral e girassóis que insistem em florescer. Aqui compartilho estudos, esboços e cartas sobre cor.</p>
+          <div class="profile__actions">
+            <button class="btn btn--primary">Seguir</button>
+            <button class="btn btn--ghost">Enviar mensagem</button>
+            <button class="btn btn--ghost">Compartilhar perfil</button>
+          </div>
+          <div class="liked-title">Obras curtidas</div>
+          <div class="liked">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Vincent_van_Gogh_-_Almond_blossom_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_Almond_blossom_-_Google_Art_Project.jpg" alt="Pintura Amendoeira em Flor" loading="lazy" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Irises-Vincent_van_Gogh.jpg/1280px-Irises-Vincent_van_Gogh.jpg" alt="Pintura Íris" loading="lazy" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Vincent_van_Gogh_-_The_yellow_house_%28%27The_street%27%29.jpg/1280px-Vincent_van_Gogh_-_The_yellow_house_%28%27The_street%27%29.jpg" alt="Pintura A Casa Amarela" loading="lazy" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Vincent_van_Gogh_-_De_slaapkamer_-_Google_Art_Project.jpg/1280px-Vincent_van_Gogh_-_De_slaapkamer_-_Google_Art_Project.jpg" alt="Pintura O Quarto em Arles" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="comunidade">
+    <div class="wrap sec-head">
+      <div>
+        <h2>Faça parte da comunidade</h2>
+        <p>Mais de 120 mil artistas já publicam suas obras no ArtLivre. A próxima pode ser a sua.</p>
+      </div>
+      <button class="btn btn--primary">Publicar minha primeira obra</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="logo" style="font-size:1.2rem"><span class="dot" aria-hidden="true"></span>ArtLivre</div>
+    <nav aria-label="Rodapé" style="display:flex;gap:1.2rem;flex-wrap:wrap">
+      <a href="#galeria">Galeria</a>
+      <a href="#artista">Artistas</a>
+      <a href="#comunidade">Comunidade</a>
+      <a href="#inicio">Termos de uso</a>
+    </nav>
+    <div>© 2026 ArtLivre · Feito com tinta e código no Brasil</div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Chips de categoria
+    var chips = document.querySelectorAll(".chip");
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        chips.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+        chip.setAttribute("aria-pressed", "true");
+      });
+    });
+
+    // Entrada dos cards ao rolar
+    var items = document.querySelectorAll(".reveal");
+    if (reduce || !("IntersectionObserver" in window)) {
+      items.forEach(function (el) { el.classList.add("is-in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry, i) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          setTimeout(function () { el.classList.add("is-in"); }, i * 80);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
