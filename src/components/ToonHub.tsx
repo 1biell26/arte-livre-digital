@@ -119,7 +119,7 @@ export default function ToonHub() {
   return (
     <div
       style={{
-        backgroundColor: IMAGES[activeIndex].bg,
+        backgroundColor: IMAGES[activeIndex]!.bg,
         transition: `background-color ${DURATION}ms ${EASE}`,
         fontFamily: "'Inter', sans-serif",
         position: "relative",
