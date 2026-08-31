@@ -119,8 +119,8 @@ export default function ToonHub() {
       opacity: 1,
       zIndex: 5,
       left: "50%",
-      height: isMobile ? "11%" : "19%",
-      bottom: isMobile ? "34%" : "14%",
+      height: isMobile ? "10%" : "17%",
+      bottom: isMobile ? "36%" : "16%",
     };
   };
 
