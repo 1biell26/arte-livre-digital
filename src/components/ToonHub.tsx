@@ -152,28 +152,6 @@ export default function ToonHub() {
           }}
         />
 
-        {/* Giant ghost text */}
-        <div
-          className="absolute inset-x-0 flex items-center justify-center pointer-events-none select-none"
-          style={{ zIndex: 2, top: "14%" }}
-        >
-          <span
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              fontSize: "clamp(90px, 26vw, 380px)",
-              fontWeight: 900,
-              color: "white",
-              opacity: 1,
-              lineHeight: 1,
-              textTransform: "uppercase",
-              letterSpacing: "-0.02em",
-              whiteSpace: "nowrap",
-            }}
-          >
-            ARTE VIVA
-          </span>
-        </div>
-
         {/* Brand */}
         <div
           className="absolute top-6 left-4 sm:left-8"
