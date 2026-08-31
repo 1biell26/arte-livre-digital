@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import ToonHub from "@/components/ToonHub";
 
 export const Route = createFileRoute("/")({
   head: () => ({
