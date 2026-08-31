@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import ToonHub from "@/components/ToonHub";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,10 +25,13 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <iframe
-      src="/artlivre.html"
-      title="ArtLivre"
-      style={{ border: "none", width: "100%", height: "100vh", display: "block" }}
-    />
+    <>
+      <ToonHub />
+      <iframe
+        src="/artlivre.html"
+        title="ArtLivre"
+        style={{ border: "none", width: "100%", height: "100vh", display: "block" }}
+      />
+    </>
   );
 }
