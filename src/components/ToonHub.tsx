@@ -82,13 +82,13 @@ export default function ToonHub() {
     if (i === center)
       return {
         ...base,
-        transform: `translateX(-50%) scale(${isMobile ? 1.1 : 1.35})`,
+        transform: `translateX(-50%) scale(${isMobile ? 1.05 : 1.12})`,
         filter: "blur(0px)",
         opacity: 1,
         zIndex: 20,
         left: "50%",
-        height: isMobile ? "42%" : "62%",
-        bottom: isMobile ? "26%" : "6%",
+        height: isMobile ? "36%" : "46%",
+        bottom: isMobile ? "30%" : "10%",
       };
     if (i === left)
       return {
@@ -97,9 +97,9 @@ export default function ToonHub() {
         filter: "blur(2px)",
         opacity: 0.85,
         zIndex: 10,
-        left: isMobile ? "16%" : "26%",
-        height: isMobile ? "13%" : "24%",
-        bottom: isMobile ? "34%" : "14%",
+        left: isMobile ? "14%" : "24%",
+        height: isMobile ? "12%" : "22%",
+        bottom: isMobile ? "36%" : "16%",
       };
     if (i === right)
       return {
@@ -108,9 +108,9 @@ export default function ToonHub() {
         filter: "blur(2px)",
         opacity: 0.85,
         zIndex: 10,
-        left: isMobile ? "84%" : "74%",
-        height: isMobile ? "13%" : "24%",
-        bottom: isMobile ? "34%" : "14%",
+        left: isMobile ? "86%" : "76%",
+        height: isMobile ? "12%" : "22%",
+        bottom: isMobile ? "36%" : "16%",
       };
     return {
       ...base,
