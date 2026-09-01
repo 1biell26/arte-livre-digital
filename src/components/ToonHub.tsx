@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const IMAGES = [
@@ -66,6 +66,33 @@ export default function ToonHub() {
     },
     [isAnimating],
   );
+
+  // ---- Drag / swipe ----
+  const dragStart = useRef<number | null>(null);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+
+  const endDrag = useCallback(
+    (endX: number) => {
+      if (dragStart.current === null) return;
+      const delta = endX - dragStart.current;
+      dragStart.current = null;
+      setDragging(false);
+      setDragX(0);
+      if (Math.abs(delta) > 50) navigate(delta < 0 ? "next" : "prev");
+    },
+    [navigate],
+  );
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    dragStart.current = e.clientX;
+    setDragging(true);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (dragStart.current === null) return;
+    setDragX(e.clientX - dragStart.current);
+  };
+  const onPointerUp = (e: React.PointerEvent) => endDrag(e.clientX);
 
   const center = activeIndex;
   const left = (activeIndex + 3) % 4;
