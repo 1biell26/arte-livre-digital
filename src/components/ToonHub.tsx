@@ -262,29 +262,20 @@ export default function ToonHub() {
           </div>
         </div>
 
-        {/* Bottom-right link */}
-        <a
-          href="#galeria"
-          className="absolute bottom-6 right-4 sm:bottom-20 sm:right-10 flex items-center"
+        {/* Soft fade into the next section (matches the site's night blue) */}
+        <div
           style={{
-            zIndex: 60,
-            fontFamily: "'Anton', sans-serif",
-            fontSize: "clamp(20px, 4vw, 56px)",
-            fontWeight: 400,
-            color: "white",
-            opacity: 0.95,
-            letterSpacing: "-0.02em",
-            lineHeight: 1,
-            textTransform: "uppercase",
-            textDecoration: "none",
-            transition: "opacity 200ms",
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: "22vh",
+            zIndex: 40,
+            pointerEvents: "none",
+            background:
+              "linear-gradient(to bottom, rgba(10,17,40,0) 0%, #0A1128 100%)",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.95")}
-        >
-          EXPLORAR
-          <ArrowRight className="w-5 h-5 sm:w-8 sm:h-8" strokeWidth={2.25} />
-        </a>
+        />
       </div>
     </div>
   );
