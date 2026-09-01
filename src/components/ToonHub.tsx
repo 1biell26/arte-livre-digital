@@ -195,8 +195,31 @@ export default function ToonHub() {
           ARTLIVRE
         </div>
 
-        {/* Carousel */}
-        <div style={{ position: "absolute", inset: 0, zIndex: 3 }}>
+        {/* Carousel (arrastável) */}
+        <div
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          onPointerLeave={onPointerUp}
+          onDragStart={(e) => e.preventDefault()}
+          onClickCapture={(e) => {
+            if (Math.abs(dragX) > 5) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 3,
+            touchAction: "pan-y",
+            cursor: dragging ? "grabbing" : "grab",
+            userSelect: "none",
+            transform: `translateX(${dragX * 0.25}px)`,
+            transition: dragging ? "none" : `transform ${DURATION}ms ${EASE}`,
+          }}
+        >
           {IMAGES.map((img, i) => (
             <div
               key={img.src}
