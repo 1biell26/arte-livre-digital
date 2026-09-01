@@ -27,11 +27,13 @@ function Index() {
   return (
     <>
       <ToonHub />
-      <iframe
-        src="/artlivre.html"
-        title="ArtLivre"
-        style={{ border: "none", width: "100%", height: "100vh", display: "block" }}
-      />
+      <div style={{ backgroundColor: "#0A1128", marginTop: -2 }}>
+        <iframe
+          src="/artlivre.html"
+          title="ArtLivre"
+          style={{ border: "none", width: "100%", height: "100vh", display: "block" }}
+        />
+      </div>
     </>
   );
 }
