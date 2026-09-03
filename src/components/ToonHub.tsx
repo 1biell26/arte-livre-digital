@@ -181,18 +181,71 @@ export default function ToonHub() {
 
         {/* Brand */}
         <div
-          className="absolute top-6 left-4 sm:left-8"
-          style={{
-            zIndex: 60,
-            fontSize: "0.75rem",
-            fontWeight: 600,
-            textTransform: "uppercase",
-            color: "white",
-            opacity: 0.9,
-            letterSpacing: "0.18em",
-          }}
+          className="absolute top-6 left-4 sm:left-8 flex items-end gap-1"
+          style={{ zIndex: 60 }}
         >
-          ARTLIVRE
+          <svg
+            viewBox="0 0 46 46"
+            role="img"
+            aria-hidden="true"
+            style={{ height: "2.1em", width: "auto", display: "block", overflow: "visible" }}
+          >
+            <defs>
+              <linearGradient id="lgA" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0" stopColor="#F97316" />
+                <stop offset="0.5" stopColor="#A855F7" />
+                <stop offset="1" stopColor="#3B82F6" />
+              </linearGradient>
+              <linearGradient id="lgBristle" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#3B82F6" />
+                <stop offset="1" stopColor="#A855F7" />
+              </linearGradient>
+            </defs>
+            <text
+              x="1"
+              y="41"
+              fontFamily="'Playfair Display', Georgia, serif"
+              fontSize="46"
+              fontWeight="800"
+              fill="url(#lgA)"
+            >
+              A
+            </text>
+            <g transform="rotate(38 24 12)">
+              <rect x="14" y="4" width="4.2" height="17" rx="2.1" fill="#E7C48A" />
+              <rect x="13.6" y="20" width="5" height="4.4" rx="1" fill="#C9CDD6" />
+              <path
+                d="M14.2 24.4 L18.6 24.4 L17.2 33 Q16.4 35.4 15.8 33 Z"
+                fill="url(#lgBristle)"
+              />
+            </g>
+            <circle cx="31" cy="29" r="2.2" fill="#F97316" />
+            <circle cx="35.5" cy="24" r="1.5" fill="#A855F7" />
+            <circle cx="38.5" cy="30.5" r="1.1" fill="#3B82F6" />
+            <path
+              d="M29 33 q3 2.4 7 1.6"
+              stroke="#A855F7"
+              strokeWidth="1.4"
+              fill="none"
+              strokeLinecap="round"
+            />
+          </svg>
+          <span
+            style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+              lineHeight: 1,
+              paddingBottom: "0.06em",
+              background: "linear-gradient(92deg,#F97316 0%,#A855F7 45%,#3B82F6 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+              fontSize: "1.6rem",
+            }}
+          >
+            rtLivre
+          </span>
         </div>
 
         {/* Carousel (arrastável) */}
